@@ -1,0 +1,41 @@
+import concurrent.futures
+import time
+import random
+start = time.perf_counter()
+
+global u_input, DB_password
+
+
+#is this the best guess the number machine?
+#it appends random number which are unique into a list and compares the user input with the list to guess the number
+DB_password = []
+u_input = int(input("Number 0-100: "))
+
+def do_something(name):
+  numbers =[]
+  i = 1
+  print("Running %s\n" %name)
+  while True:
+    machine = random.randint(1, 100)
+    print(machine)
+    if machine not in DB_password:
+      DB_password.append(machine)
+    
+    if u_input in DB_password:
+      print("Match")
+      print(f"{name} has finished execution\n")
+      break
+    #print(i, 'second...', end='\r')
+    print(i, 'second...', name, end = '\n')
+    time.sleep(1)
+    i += 1
+  
+
+with concurrent.futures.ThreadPoolExecutor() as executor:
+  f1 = executor.submit(do_something, "First Thread")
+  f2 = executor.submit(do_something, "Second Thread")
+
+print(DB_password)
+finish = time.perf_counter()
+
+print(f'Finished in {round(finish-start, 2)} seconds(s)')
