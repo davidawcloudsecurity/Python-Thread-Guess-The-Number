@@ -2,7 +2,7 @@ import concurrent.futures
 import time
 import random
 start = time.perf_counter()
-
+#using for loop
 global u_input
 u_input = int(input("Number 0-100: "))
 
