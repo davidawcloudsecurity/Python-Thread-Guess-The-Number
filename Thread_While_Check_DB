@@ -3,39 +3,40 @@ import time
 import random
 start = time.perf_counter()
 
-global u_input, DB_password
+global u_input, u_limit, DB_password
 
 
 #is this the best guess the number machine?
-#it appends random number which are unique into a list and compares the user input with the list to guess the number
 DB_password = []
-u_input = int(input("Number 0-100: "))
+u_limit = int(input("Enter limit: "))
+u_input = int(input(f"Number 0-{u_limit}: "))
 
 def do_something(name):
   numbers =[]
   i = 1
   print("Running %s\n" %name)
   while True:
-    machine = random.randint(1, 100)
-    print(machine)
+    machine = random.randint(1, u_limit)
+    
     if machine not in DB_password:
       DB_password.append(machine)
     
     if u_input in DB_password:
-      print("Match")
+      print("\n\nMatch")
       print(f"{name} has finished execution\n")
       break
     #print(i, 'second...', end='\r')
-    print(i, 'second...', name, end = '\n')
-    time.sleep(1)
+    print(i, 'second...', name, end = '\r')
+    #time.sleep(1)
     i += 1
   
 
 with concurrent.futures.ThreadPoolExecutor() as executor:
   f1 = executor.submit(do_something, "First Thread")
   f2 = executor.submit(do_something, "Second Thread")
+  f3 = executor.submit(do_something, "Third Thread")
 
-print(DB_password)
+#print(DB_password, len(DB_password), 'tries')
 finish = time.perf_counter()
 
 print(f'Finished in {round(finish-start, 2)} seconds(s)')
