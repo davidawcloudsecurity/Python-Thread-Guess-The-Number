@@ -1,16 +1,23 @@
 import threading
 import time
+#Try to understand how thread works
+#This code only runs one thread at a time
 start = time.perf_counter()
 
-def do_something(name):
+global u_input
+u_input = int(input("Number 0-100: "))
+
+def do_something(name, start1, limit1):
   print("Running %s\n" %name)
-  for i in range(1,11):
-    print(i, 'second...', end='\r')
-    time.sleep(1)
+  for i in range(start1,limit1):
+    if i == u_input or u_input < start1:
+      break
+    print(i, 'second...', u_input, end='\r')
+    time.sleep(0.5)
   print("%s has finished execution\n" %name)
 
-t1 = threading.Thread(target=do_something("First Thread",))
-t2 = threading.Thread(target=do_something("Second Thread",))
+t1 = threading.Thread(target=do_something("First Thread",1, 51))
+t2 = threading.Thread(target=do_something("Second Thread",51,101))
 
 t1.start()
 t2.start()
